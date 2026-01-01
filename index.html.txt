@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiến Binh Xanh Bảo Vệ Môi Trường</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #2ecc71;
+            --secondary-green: #27ae60;
+            --light-green: #a9dfbf;
+            --dark-green: #1e8449;
+            --background: #f9fdfb;
+            --white: #ffffff;
+            --black: #333333;
+            --red: #e74c3c;
+            --blue: #3498db;
+            --shadow: rgba(46, 204, 113, 0.2);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--black);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            background-image: linear-gradient(to bottom, #e8f5e9, #f1f8e9);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--shadow);
+            overflow: hidden;
+            padding: 0;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary-green), var(--secondary-green));
+            color: var(--white);
+            padding: 25px;
+            text-align: center;
+            border-bottom: 5px solid var(--dark-green);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .stat-box {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            min-width: 160px;
+            margin: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--dark-green);
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--black);
+        }
+        
+        .progress-container {
+            padding: 20px 25px 10px;
+            background-color: #f1f8e9;
+            border-bottom: 2px solid var(--light-green);
+        }
+        
+        .progress-bar {
+            height: 15px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--light-green), var(--primary-green));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            color: var(--dark-green);
+        }
+        
+        .quiz-container {
+            padding: 25px;
+        }
+        
+        .question-number {
+            background-color: var(--light-green);
+            color: var(--dark-green);
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            color: var(--black);
+        }
+        
+        .options-container {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .option {
+            background-color: var(--white);
+            border: 2px solid var(--light-green);
+            border-radius: 12px;
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        
+        .option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: #f9fdf9;
+        }
+        
+        .option-letter {
+            background-color: var(--primary-green);
+            color: var(--white);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .option.correct {
+            background-color: #d4edda;
+            border-color: var(--primary-green);
+            color: var(--dark-green);
+        }
+        
+        .option.incorrect {
+            background-color: #f8d7da;
+            border-color: var(--red);
+            color: #721c24;
+        }
+        
+        .correct-answer {
+            background-color: #d4edda !important;
+            border-color: var(--primary-green) !important;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 25px;
+            background-color: #f1f8e9;
+            border-top: 2px solid var(--light-green);
+        }
+        
+        button {
+            background-color: var(--primary-green);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+        }
+        
+        button:hover {
+            background-color: var(--secondary-green);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(46, 204, 113, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button i {
+            margin-right: 8px;
+        }
+        
+        #next-btn {
+            background-color: var(--blue);
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+        
+        #next-btn:hover {
+            background-color: #2980b9;
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .result-container {
+            padding: 30px;
+            text-align: center;
+            display: none;
+        }
+        
+        .result-title {
+            font-size: 2rem;
+            color: var(--dark-green);
+            margin-bottom: 20px;
+        }
+        
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary-green) 0% 0%, #e0e0e0 0% 100%);
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .score-circle-inner {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .score-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--dark-green);
+        }
+        
+        .score-text {
+            font-size: 1.2rem;
+            color: var(--black);
+        }
+        
+        .message {
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            color: var(--dark-green);
+            font-weight: bold;
+        }
+        
+        .feedback {
+            font-size: 1.1rem;
+            color: var(--black);
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #f1f8e9;
+            border-radius: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .leaf-icon {
+            color: var(--primary-green);
+            margin: 0 5px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .stats-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stat-box {
+                width: 90%;
+                margin-bottom: 10px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-leaf leaf-icon"></i> Chiến Binh Xanh Bảo Vệ Môi Trường</h1>
+            <p class="subtitle">Kiểm tra kiến thức bảo vệ môi trường - Dành cho học sinh lớp 4-6</p>
+            
+            <div class="stats-container">
+                <div class="stat-box">
+                    <span class="stat-value" id="high-score">0</span>
+                    <span class="stat-label">Điểm Cao Nhất</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="total-correct">0</span>
+                    <span class="stat-label">Tổng Câu Đúng</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="games-played">0</span>
+                    <span class="stat-label">Số Lượt Chơi</span>
+                </div>
+            </div>
+        </header>
+        
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="progress-text">
+                <span id="current-question">1</span>
+                <span id="total-questions">/10</span>
+            </div>
+        </div>
+        
+        <div class="quiz-container">
+            <div class="question-number">Câu hỏi <span id="question-counter">1</span>/10</div>
+            <div class="question-text" id="question-text">Đang tải câu hỏi...</div>
+            
+            <div class="options-container" id="options-container">
+                <!-- Các lựa chọn sẽ được thêm bằng JavaScript -->
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="reset-btn">
+                <i class="fas fa-redo"></i> Làm bài mới
+            </button>
+            <button id="next-btn">
+                <i class="fas fa-arrow-right"></i> Câu tiếp theo
+            </button>
+        </div>
+        
+        <div class="result-container" id="result-container">
+            <h2 class="result-title">Kết quả của bạn</h2>
+            <div class="score-circle" id="score-circle">
+                <div class="score-circle-inner">
+                    <span class="score-value" id="final-score">0</span>
+                    <span class="score-text">/10 điểm</span>
+                </div>
+            </div>
+            <div class="message" id="result-message"></div>
+            <div class="feedback" id="result-feedback"></div>
+            <button id="play-again-btn">
+                <i class="fas fa-play"></i> Chơi lại
+            </button>
+        </div>
+        
+        <footer>
+            <p>Ứng dụng "Chiến Binh Xanh Bảo Vệ Môi Trường" - Giáo dục ý thức bảo vệ môi trường cho thế hệ trẻ</p>
+            <p>Phân loại rác • Bảo vệ cây xanh • Tiết kiệm điện nước</p>
+        </footer>
+    </div>
+
+    <script>
+        // Ngân hàng câu hỏi về môi trường
+        const questionBank = [
+            {
+                question: "Loại rác nào sau đây là rác hữu cơ?",
+                options: [
+                    "Vỏ chuối, rau củ quả hỏng",
+                    "Chai nhựa, túi nilon",
+                    "Lon nước ngọt, vỏ hộp sữa",
+                    "Giấy vụn, báo cũ"
+                ],
+                correct: 0,
+                explanation: "Rác hữu cơ là các loại rác dễ phân hủy như thức ăn thừa, vỏ trái cây, rau củ quả hỏng."
+            },
+            {
+                question: "Chúng ta nên làm gì với pin đã qua sử dụng?",
+                options: [
+                    "Vứt vào thùng rác thông thường",
+                    "Vứt vào thùng rác tái chế",
+                    "Đem đến điểm thu gom pin cũ",
+                    "Chôn xuống đất"
+                ],
+                correct: 2,
+                explanation: "Pin chứa nhiều chất độc hại, cần được xử lý đặc biệt tại điểm thu gom pin cũ."
+            },
+            {
+                question: "Hành động nào giúp tiết kiệm nước?",
+                options: [
+                    "Tắm vòi sen lâu",
+                    "Khóa vòi nước khi đánh răng",
+                    "Xả nước liên tục khi rửa rau",
+                    "Dùng máy giặt khi có ít quần áo"
+                ],
+                correct: 1,
+                explanation: "Khóa vòi nước khi không sử dụng là cách đơn giản để tiết kiệm nước."
+            },
+            {
+                question: "Loại rác nào có thể tái chế?",
+                options: [
+                    "Giấy, bìa carton",
+                    "Thức ăn thừa",
+                    "Xương động vật",
+                    "Túi nilon đã dính dầu mỡ"
+                ],
+                correct: 0,
+                explanation: "Giấy và bìa carton có thể tái chế thành giấy mới, giúp bảo vệ cây xanh."
+            },
+            {
+                question: "Tại sao chúng ta cần bảo vệ cây xanh?",
+                options: [
+                    "Cây xanh cung cấp oxy cho chúng ta thở",
+                    "Cây xanh làm đẹp cảnh quan",
+                    "Cây xanh giúp chống xói mòn đất",
+                    "Tất cả các ý trên"
+                ],
+                correct: 3,
+                explanation: "Cây xanh có rất nhiều lợi ích: cung cấp oxy, làm đẹp cảnh quan, chống xói mòn và là nơi ở của nhiều loài động vật."
+            },
+            {
+                question: "Hành động nào giúp tiết kiệm điện?",
+                options: [
+                    "Bật điều hòa ở nhiệt độ thấp",
+                    "Tắt đèn khi ra khỏi phòng",
+                    "Bật tất cả đèn trong nhà",
+                    "Sử dụng bóng đèn sợi đốt"
+                ],
+                correct: 1,
+                explanation: "Tắt đèn và các thiết bị điện khi không sử dụng là cách đơn giản nhất để tiết kiệm điện."
+            },
+            {
+                question: "Phân loại rác đúng cách mang lại lợi ích gì?",
+                options: [
+                    "Giúp xử lý rác dễ dàng hơn",
+                    "Giảm ô nhiễm môi trường",
+                    "Tái chế được nhiều loại rác",
+                    "Tất cả các ý trên"
+                ],
+                correct: 3,
+                explanation: "Phân loại rác giúp xử lý rác hiệu quả, giảm ô nhiễm và tăng khả năng tái chế."
+            },
+            {
+                question: "Chai nhựa sau khi sử dụng nên làm gì?",
+                options: [
+                    "Vứt ra môi trường",
+                    "Để vào thùng rác tái chế",
+                    "Đốt bỏ",
+                    "Chôn xuống đất"
+                ],
+                correct: 1,
+                explanation: "Chai nhựa cần được bỏ vào thùng rác tái chế để có thể tái chế thành sản phẩm mới."
+            },
+            {
+                question: "Tại sao không nên xả rác bừa bãi?",
+                options: [
+                    "Gây ô nhiễm môi trường",
+                    "Ảnh hưởng đến sức khỏe",
+                    "Làm mất mỹ quan",
+                    "Tất cả các ý trên"
+                ],
+                correct: 3,
+                explanation: "Xả rác bừa bãi gây ô nhiễm môi trường, ảnh hưởng sức khỏe và làm xấu cảnh quan."
+            },
+            {
+                question: "Chúng ta nên sử dụng túi gì khi đi chợ để bảo vệ môi trường?",
+                options: [
+                    "Túi nilon",
+                    "Túi giấy",
+                    "Túi vải sử dụng nhiều lần",
+                    "Không cần túi"
+                ],
+                correct: 2,
+                explanation: "Túi vải có thể sử dụng nhiều lần, giúp giảm thiểu rác thải nhựa ra môi trường."
+            },
+            {
+                question: "Cây xanh hấp thụ khí gì và thải ra khí gì?",
+                options: [
+                    "Hấp thụ Oxy, thải ra CO2",
+                    "Hấp thụ CO2, thải ra Oxy",
+                    "Hấp thụ Nito, thải ra Oxy",
+                    "Hấp thụ CO2, thải ra Nito"
+                ],
+                correct: 1,
+                explanation: "Cây xanh hấp thụ khí CO2 và thải ra khí Oxy thông qua quá trình quang hợp."
+            },
+            {
+                question: "Hành động nào sau đây gây lãng phí điện?",
+                options: [
+                    "Sử dụng bóng đèn LED",
+                    "Tắt quạt khi ra khỏi phòng",
+                    "Bật tivi khi không ai xem",
+                    "Tắt máy tính khi không sử dụng"
+                ],
+                correct: 2,
+                explanation: "Bật các thiết bị điện khi không sử dụng là hành động lãng phí điện."
+            },
+            {
+                question: "Rác vô cơ là loại rác gì?",
+                options: [
+                    "Rác dễ phân hủy",
+                    "Rác có nguồn gốc từ thực vật",
+                    "Rác không thể tái chế",
+                    "Rác khó phân hủy như nhựa, thủy tinh"
+                ],
+                correct: 3,
+                explanation: "Rác vô cơ là rác khó phân hủy như nhựa, thủy tinh, sành sứ, nên được xử lý đặc biệt."
+            },
+            {
+                question: "Việc trồng cây xanh giúp gì cho môi trường?",
+                options: [
+                    "Giảm thiểu ô nhiễm không khí",
+                    "Chống xói mòn đất",
+                    "Tạo bóng mát",
+                    "Tất cả các ý trên"
+                ],
+                correct: 3,
+                explanation: "Trồng cây xanh mang lại nhiều lợi ích: làm sạch không khí, chống xói mòn và tạo bóng mát."
+            },
+            {
+                question: "Khi thấy vòi nước bị rò rỉ, chúng ta nên làm gì?",
+                options: [
+                    "Không quan tâm",
+                    "Báo cho người lớn hoặc thợ sửa chữa",
+                    "Tự sửa chữa",
+                    "Tiếp tục sử dụng bình thường"
+                ],
+                correct: 1,
+                explanation: "Vòi nước rò rỉ gây lãng phí nước, cần báo cho người lớn hoặc thợ sửa chữa để khắc phục."
+            },
+            {
+                question: "Để bảo vệ môi trường, chúng ta nên sử dụng phương tiện nào?",
+                options: [
+                    "Xe máy cho mọi quãng đường",
+                    "Xe ô tô một mình",
+                    "Đi bộ hoặc xe đạp cho quãng đường ngắn",
+                    "Xe buýt khi có nhiều người"
+                ],
+                correct: 2,
+                explanation: "Đi bộ hoặc xe đạp cho quãng đường ngắn giúp giảm khí thải và bảo vệ môi trường."
+            },
+            {
+                question: "Lợi ích của việc tái sử dụng đồ vật là gì?",
+                options: [
+                    "Tiết kiệm tiền",
+                    "Giảm lượng rác thải",
+                    "Bảo vệ tài nguyên thiên nhiên",
+                    "Tất cả các ý trên"
+                ],
+                correct: 3,
+                explanation: "Tái sử dụng đồ vật giúp tiết kiệm tiền, giảm rác thải và bảo vệ tài nguyên thiên nhiên."
+            },
+            {
+                question: "Thùng rác màu xanh lá cây thường dùng cho loại rác gì?",
+                options: [
+                    "Rác tái chế",
+                    "Rác hữu cơ",
+                    "Rác vô cơ",
+                    "Rác nguy hại"
+                ],
+                correct: 1,
+                explanation: "Thùng rác màu xanh lá cây thường dùng cho rác hữu cơ dễ phân hủy."
+            },
+            {
+                question: "Tắt các thiết bị điện ở chế độ chờ (standby) giúp gì?",
+                options: [
+                    "Tiết kiệm điện",
+                    "An toàn hơn",
+                    "Tăng tuổi thọ thiết bị",
+                    "Tất cả các ý trên"
+                ],
+                correct: 3,
+                explanation: "Tắt hoàn toàn thiết bị điện giúp tiết kiệm điện, an toàn và tăng tuổi thọ thiết bị."
+            },
+            {
+                question: "Chúng ta nên làm gì với quần áo cũ không dùng nữa?",
+                options: [
+                    "Vứt vào thùng rác",
+                    "Đốt bỏ",
+                    "Tặng cho người cần hoặc làm đồ tái chế",
+                    "Giữ lại dù không dùng"
+                ],
+                correct: 2,
+                explanation: "Quần áo cũ có thể tặng cho người cần hoặc tái chế thành các sản phẩm khác như khăn lau, túi xách."
+            }
+        ];
+
+        // Biến toàn cục
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedQuestions = [];
+        let userAnswers = [];
+        let gameInProgress = false;
+        let questionsAnswered = 0;
+
+        // Lấy các phần tử DOM
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const nextBtn = document.getElementById('next-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const playAgainBtn = document.getElementById('play-again-btn');
+        const resultContainer = document.getElementById('result-container');
+        const quizContainer = document.querySelector('.quiz-container');
+        const progressContainer = document.querySelector('.progress-container');
+        const controls = document.querySelector('.controls');
+        const currentQuestionElement = document.getElementById('current-question');
+        const questionCounter = document.getElementById('question-counter');
+        const progressFill = document.getElementById('progress-fill');
+        const finalScoreElement = document.getElementById('final-score');
+        const resultMessage = document.getElementById('result-message');
+        const resultFeedback = document.getElementById('result-feedback');
+        const highScoreElement = document.getElementById('high-score');
+        const totalCorrectElement = document.getElementById('total-correct');
+        const gamesPlayedElement = document.getElementById('games-played');
+        const scoreCircle = document.getElementById('score-circle');
+
+        // Lấy dữ liệu từ localStorage
+        let highScore = localStorage.getItem('highScore') || 0;
+        let totalCorrect = localStorage.getItem('totalCorrect') || 0;
+        let gamesPlayed = localStorage.getItem('gamesPlayed') || 0;
+
+        // Cập nhật hiển thị thống kê
+        function updateStats() {
+            highScoreElement.textContent = highScore;
+            totalCorrectElement.textContent = totalCorrect;
+            gamesPlayedElement.textContent = gamesPlayed;
+        }
+
+        // Lưu dữ liệu vào localStorage
+        function saveStats() {
+            localStorage.setItem('highScore', highScore);
+            localStorage.setItem('totalCorrect', totalCorrect);
+            localStorage.setItem('gamesPlayed', gamesPlayed);
+        }
+
+        // Khởi tạo ứng dụng
+        function initApp() {
+            updateStats();
+            resetBtn.addEventListener('click', startNewGame);
+            nextBtn.addEventListener('click', nextQuestion);
+            playAgainBtn.addEventListener('click', startNewGame);
+            startNewGame();
+        }
+
+        // Bắt đầu trò chơi mới
+        function startNewGame() {
+            // Ẩn kết quả, hiển thị câu hỏi
+            resultContainer.style.display = 'none';
+            quizContainer.style.display = 'block';
+            progressContainer.style.display = 'block';
+            controls.style.display = 'flex';
+            
+            // Reset biến
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = [];
+            questionsAnswered = 0;
+            gameInProgress = true;
+            
+            // Chọn ngẫu nhiên 10 câu hỏi
+            selectedQuestions = getRandomQuestions(10);
+            
+            // Hiển thị câu hỏi đầu tiên
+            displayQuestion(currentQuestionIndex);
+            
+            // Cập nhật thanh tiến trình
+            updateProgress();
+            
+            // Tăng số lượt chơi
+            gamesPlayed++;
+            saveStats();
+            updateStats();
+        }
+
+        // Lấy ngẫu nhiên các câu hỏi
+        function getRandomQuestions(num) {
+            // Tạo bản sao của ngân hàng câu hỏi
+            const shuffled = [...questionBank].sort(() => Math.random() - 0.5);
+            
+            // Lấy số câu hỏi cần thiết
+            const selected = shuffled.slice(0, num);
+            
+            // Xáo trộn đáp án trong mỗi câu hỏi
+            selected.forEach(question => {
+                const originalOptions = [...question.options];
+                const originalCorrect = question.correct;
+                const correctAnswer = originalOptions[originalCorrect];
+                
+                // Tạo mảng mới cho các đáp án đã xáo trộn
+                const shuffledOptions = [...originalOptions].sort(() => Math.random() - 0.5);
+                
+                // Tìm vị trí mới của đáp án đúng
+                const newCorrectIndex = shuffledOptions.indexOf(correctAnswer);
+                
+                // Cập nhật câu hỏi
+                question.options = shuffledOptions;
+                question.correct = newCorrectIndex;
+            });
+            
+            return selected;
+        }
+
+        // Hiển thị câu hỏi
+        function displayQuestion(index) {
+            if (index >= selectedQuestions.length) {
+                showResults();
+                return;
+            }
+            
+            const question = selectedQuestions[index];
+            
+            // Cập nhật số câu hỏi
+            questionCounter.textContent = index + 1;
+            currentQuestionElement.textContent = index + 1;
+            
+            // Hiển thị nội dung câu hỏi
+            questionText.textContent = question.question;
+            
+            // Xóa các lựa chọn cũ
+            optionsContainer.innerHTML = '';
+            
+            // Tạo các lựa chọn mới
+            const letters = ['A', 'B', 'C', 'D'];
+            question.options.forEach((option, optionIndex) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.innerHTML = `
+                    <div class="option-letter">${letters[optionIndex]}</div>
+                    <div class="option-text">${option}</div>
+                `;
+                
+                // Thêm sự kiện click
+                optionElement.addEventListener('click', () => selectAnswer(optionIndex, question.correct));
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Ẩn nút "Câu tiếp theo" cho đến khi chọn đáp án
+            nextBtn.style.display = 'none';
+        }
+
+        // Chọn đáp án
+        function selectAnswer(selectedIndex, correctIndex) {
+            // Nếu câu hỏi đã được trả lời, không làm gì
+            if (userAnswers[currentQuestionIndex] !== undefined) return;
+            
+            const options = document.querySelectorAll('.option');
+            const letters = ['A', 'B', 'C', 'D'];
+            
+            // Đánh dấu câu hỏi đã được trả lời
+            userAnswers[currentQuestionIndex] = selectedIndex;
+            questionsAnswered++;
+            
+            // Kiểm tra đáp án
+            const isCorrect = selectedIndex === correctIndex;
+            
+            // Hiển thị kết quả
+            if (isCorrect) {
+                options[selectedIndex].classList.add('correct');
+                score++;
+            } else {
+                options[selectedIndex].classList.add('incorrect');
+                options[correctIndex].classList.add('correct-answer');
+            }
+            
+            // Vô hiệu hóa tất cả các lựa chọn
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+            });
+            
+            // Hiển thị nút "Câu tiếp theo"
+            nextBtn.style.display = 'flex';
+            
+            // Cập nhật tổng số câu đúng
+            if (isCorrect) {
+                totalCorrect++;
+                saveStats();
+                updateStats();
+            }
+        }
+
+        // Chuyển đến câu hỏi tiếp theo
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex < selectedQuestions.length) {
+                displayQuestion(currentQuestionIndex);
+                updateProgress();
+            } else {
+                showResults();
+            }
+        }
+
+        // Cập nhật thanh tiến trình
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / selectedQuestions.length) * 100;
+            progressFill.style.width = `${progress}%`;
+        }
+
+        // Hiển thị kết quả
+        function showResults() {
+            gameInProgress = false;
+            
+            // Ẩn phần câu hỏi, hiển thị kết quả
+            quizContainer.style.display = 'none';
+            progressContainer.style.display = 'none';
+            controls.style.display = 'none';
+            resultContainer.style.display = 'block';
+            
+            // Cập nhật điểm số
+            finalScoreElement.textContent = score;
+            
+            // Cập nhật điểm cao nhất
+            if (score > highScore) {
+                highScore = score;
+                saveStats();
+                updateStats();
+            }
+            
+            // Cập nhật đồ thị vòng tròn điểm số
+            const percentage = (score / selectedQuestions.length) * 100;
+            scoreCircle.style.background = `conic-gradient(var(--primary-green) 0% ${percentage}%, #e0e0e0 ${percentage}% 100%)`;
+            
+            // Hiển thị thông điệp phù hợp
+            let message = "";
+            let feedback = "";
+            
+            if (score === selectedQuestions.length) {
+                message = "Xuất sắc! Bạn là Chiến Binh Xanh thực thụ!";
+                feedback = "Bạn có hiểu biết tuyệt vời về bảo vệ môi trường. Hãy tiếp tục phát huy và chia sẻ kiến thức với mọi người nhé!";
+            } else if (score >= selectedQuestions.length * 0.7) {
+                message = "Rất tốt! Bạn là Chiến Binh Xanh giỏi!";
+                feedback = "Bạn có kiến thức tốt về bảo vệ môi trường. Hãy tiếp tục học hỏi và thực hành nhiều hơn nữa!";
+            } else if (score >= selectedQuestions.length * 0.5) {
+                message = "Khá tốt! Bạn đang trên đường trở thành Chiến Binh Xanh!";
+                feedback = "Bạn đã có một số hiểu biết về bảo vệ môi trường. Hãy tiếp tục tìm hiểu thêm và áp dụng vào cuộc sống hàng ngày!";
+            } else {
+                message = "Cố gắng hơn nhé! Bảo vệ môi trường là việc của mọi người!";
+                feedback = "Đừng nản lòng! Hãy tìm hiểu thêm về cách phân loại rác, tiết kiệm điện nước và bảo vệ cây xanh. Mỗi hành động nhỏ đều có ý nghĩa!";
+            }
+            
+            resultMessage.textContent = message;
+            resultFeedback.textContent = feedback;
+        }
+
+        // Khởi chạy ứng dụng
+        window.onload = initApp;
+    </
